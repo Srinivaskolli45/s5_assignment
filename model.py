@@ -1,4 +1,13 @@
+from __future__ import print_function
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torchsummary import summary
 
+class Net(nn.Module):
+    def __init__(self,norm_type = "nn.BatchNorm2d"):
+        super(Net, self).__init__()
+        
         if norm_type == 'nn.BatchNorm2d':
             self.Batch_norm_func()
         elif norm_type == 'nn.GroupNorm':
