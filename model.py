@@ -55,12 +55,12 @@ class Net(nn.Module):
     def Layer_norm_func(self):
         #input 1x28x28   ==> Output 10x26x26  | RF 3
         self.conv1 = nn.Sequential(nn.Conv2d(1, 10, 3),
-                                      nn.LayerNorm(10,26,26),
+                                      nn.GroupNorm(10,10),
                                       nn.ReLU())
                                       
         #input 10x26x26 ==> Output 10x24x24 | RF 5
         self.conv2 = nn.Sequential(nn.Conv2d(10, 10, 3),
-                                      nn.LayerNorm(10,24,24),
+                                      nn.GroupNorm(10,10),
                                       nn.ReLU())
                                       
         #input 10x24x24 ==> Output 10x12x12 | RF  7
@@ -68,40 +68,37 @@ class Net(nn.Module):
 
         #input 10x12x12 ==> Output 32x10x10 | RF 10
         self.conv3 = nn.Sequential(nn.Conv2d(10,32,3),
-                                      nn.LayerNorm(32,10,10),
+                                      nn.GroupNorm(32,32),
                                       nn.ReLU())
-                                     
+                                  
 
         #input 32x10x10 ==> Output 10x8x8 | RF 14
         self.conv4 = nn.Sequential(nn.Conv2d(32,10,3),
-                                      nn.LayerNorm(10,8,8),
-                                      nn.ReLU())
+                                      nn.GroupNorm(10,10),
+                                      nn.ReLU())                                 
                                               
         #input 10x8x8 ==> Output 20x6x6 | RF 18
         self.conv5 = nn.Sequential(nn.Conv2d(10,20,3),
-                                      nn.LayerNorm(20,6,6),
+                                      nn.GroupNorm(20,20),
                                       nn.ReLU())
                                       
         #input 20x6x6 ==> OUtput 10x6x6 | RF 20
         self.conv6 = nn.Sequential(nn.Conv2d(20,10,1),
-                                    nn.LayerNorm(10,6,6),
+                                    nn.GroupNorm(10,10),
                                      nn.ReLU())
                                      
-       
-        
         self.avgPoolblk = nn.AvgPool2d(6,6)
-
     def Batch_norm_func(self):
         #input 1x28x28   ==> Output 10x26x26  | RF 3
         self.conv1 = nn.Sequential(nn.Conv2d(1, 10, 3),
                                       nn.BatchNorm2d(10),
                                       nn.ReLU())
-                                      
+
         #input 10x26x26 ==> Output 10x24x24 | RF 5
         self.conv2 = nn.Sequential(nn.Conv2d(10, 10, 3),
                                       nn.BatchNorm2d(10),
                                       nn.ReLU())
-                                      
+
         #input 10x24x24 ==> Output 10x12x12 | RF  7
         self.transitionblk1 = nn.MaxPool2d(2,2)
 
@@ -109,27 +106,25 @@ class Net(nn.Module):
         self.conv3 = nn.Sequential(nn.Conv2d(10,32,3),
                                       nn.BatchNorm2d(32),
                                       nn.ReLU())
-                                     
+
 
         #input 32x10x10 ==> Output 10x8x8 | RF 14
         self.conv4 = nn.Sequential(nn.Conv2d(32,10,3),
                                       nn.BatchNorm2d(10),
                                       nn.ReLU())
-                                      
-         
-                                      
+
         #input 10x8x8 ==> Output 20x6x6 | RF 18
         self.conv5 = nn.Sequential(nn.Conv2d(10,20,3),
                                       nn.BatchNorm2d(20),
                                       nn.ReLU())
-                                      
+
         #input 20x6x6 ==> OUtput 10x6x6 | RF 20
         self.conv6 = nn.Sequential(nn.Conv2d(20,10,1),
                                     nn.BatchNorm2d(10),
                                      nn.ReLU())
-                                     
-       
-        
+
+
+
         self.avgPoolblk = nn.AvgPool2d(6,6)
 
 
